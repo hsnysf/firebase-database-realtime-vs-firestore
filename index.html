@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+	
+		<meta charset="UTF-8">
+		<title>تكريم المتفوقين</title>
+		
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="mobile-web-app-capable" content="yes">
+		
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="viewport" content="width = device-width, initial-scale = 1, user-scalable = no">
+		
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+		<link rel="stylesheet" href="common.css">
+		
+	</head>
+	<body>
+	
+		<div class="container-fluid" ng-app="application" ng-controller="controller">
+			
+			<h4 class="pb-2 mt-4 mb-3 border-bottom">
+				تكريم المتفوقين
+			</h4>
+			
+			<div id="alert" ng-class="alert.class" ng-bind="alert.message" class="alert font-weight-bold text-center" role="alert">
+			</div>
+			
+			<div class="card">
+				<h5 class="card-header">
+					معلومات الطالب
+				</h5>
+				<div class="card-body">
+					
+					<div class="row">
+				
+						<div class="col-sm-12 col-md-6">
+							<div class="form-group">
+								<label for="mobile">رقم الهاتف</label>
+								<input id="mobile" type="tel" class="form-control mobile" ng-model="student.mobile" placeholder="رقم الهاتف" maxlength="8" required="required" autocomplete="off" ng-disabled="isValidMobile() || submitted" ng-change="updateMobile()">
+							</div>
+						</div>
+						
+						<div class="col-sm-12 col-md-6">
+							<div class="form-group">
+								<label for="name">اسم الطالب</label>
+								<input id="name" class="form-control name" ng-model="student.name" placeholder="اسم الطالب" maxlength="40" required="required" autocomplete="off" ng-disabled="!isValidMobile() || submitted">
+							</div>
+						</div>
+						
+						<div class="col-sm-12 col-md-6">
+							<div class="form-group">
+								<label for="contact">رقم الهاتف الثاني</label>
+								<input id="contact" type="tel" class="form-control mobile" ng-model="student.contact" different="mobile" placeholder="رقم الهاتف الثاني" maxlength="8" required="required" autocomplete="off" ng-disabled="!isValidMobile() || submitted">
+							</div>
+						</div>
+						
+						<div class="col-sm-12 col-md-6">
+							<div class="form-group">
+								<label for="age">العمر</label>
+								<input id="age" type="tel" class="form-control" ng-model="student.age" placeholder="العمر" min="10" max="25" maxlength="2" required="required" autocomplete="off" ng-disabled="!isValidMobile() || submitted">
+							</div>
+						</div>
+						
+						<div class="col-sm-12 col-md-6">
+							<div class="form-group">
+								<label for="email">البريد الإلكتروني</label>
+								<input id="email" type="email" class="form-control" ng-model="student.email" placeholder="البريد الإلكتروني" maxlength="50" required="required" autocomplete="off" ng-disabled="!isValidMobile() || submitted">
+							</div>
+						</div>
+						
+						<div class="col-sm-12 col-md-6">
+							<div class="form-group">
+								<label for="confirmEmail">تأكيد البريد الإلكتروني</label>
+								<input id="confirmEmail" type="email" class="form-control" ng-model="student.confirmEmail" same="email" placeholder="تأكيد البريد الإلكتروني" maxlength="50" required="required" autocomplete="off" ng-disabled="!isValidMobile() || submitted">
+							</div>
+						</div>
+						
+						<div class="col-sm-12 col-md-6">
+							<div class="form-group">
+								<label for="photo">الصورة الشخصية</label>
+								<div class="custom-file">
+									<input id="photo" type="file" class="custom-file-input" placeholder="الصورة الشخصية" ng-required="student.photo == null" onchange="angular.element(this).scope().uploadPhoto()" ng-disabled="!isValidMobile() || submitted">
+									<label for="photo" class="custom-file-label">الصورة الشخصية</label>
+								</div>
+							</div>
+							<div class="text-center">
+								<a data-toggle="modal" data-target="#photoModal">
+									<img ng-src="{{student.photo}}" class="img-responsive" width="200">
+								</a>
+							</div>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+			
+			<div class="card mt-3">
+				<h5 class="card-header">
+					قائمة الشهادات
+				</h5>
+				<div class="card-body">
+					<div class="row" ng-repeat="certificate in certificates">
+						<div class="col-md-5">
+							<div class="form-group">
+								<input id="certificateTitle{{$index}}" type="text" class="form-control is-invalid" ng-model="certificate.title" placeholder="الشهادة" maxlength="50" required="required" autocomplete="off" ng-disabled="!isValidMobile() || submitted">
+							</div>
+						</div>
+						<div class="col-md-5">
+							<div class="form-group">
+								<input id="certificateYear{{$index}}" type="tel" class="form-control is-invalid" ng-model="certificate.year" placeholder="السنة" maxlength="50" required="required" autocomplete="off" ng-disabled="!isValidMobile() || submitted">
+							</div>
+						</div>
+						<div class="col-md-2 text-left">
+							<div class="form-group">
+								<button class="btn btn-dark font-weight-bold" ng-click="addCertificate($index)" ng-disabled="!isValidMobile() || submitted">+</button>
+								<button class="btn btn-dark font-weight-bold" ng-click="deleteCertificate($index)" ng-disabled="!isValidMobile() || submitted">-</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="modal fade" id="photoModal">
+				<div class="modal-dialog modal-xl">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h4 class="modal-title">الصورة الشخصية</h4>
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+						</div>
+
+						<div class="modal-body">
+							<img ng-src="{{student.photo}}" class="img-responsive" width="100%">
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="form-group text-center" ng-hide="submitted">
+				<br>
+				<button class="btn btn-dark" ng-click="saveStudent()">تسليم المعلومات</button>
+			</div>
+				
+		</div>
+		
+	</body>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/8.7.0/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/8.7.0/firebase-database.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/8.7.0/firebase-firestore.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/8.7.0/firebase-storage.js"></script>
+	<script src="common.js"></script>
+	<script src="index.js"></script>
+</html>

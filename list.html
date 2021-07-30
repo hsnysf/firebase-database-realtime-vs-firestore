@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+	
+		<meta charset="UTF-8">
+		<title>تكريم المتفوقين</title>
+		
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="mobile-web-app-capable" content="yes">
+		
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="viewport" content="width = device-width, initial-scale = 1, user-scalable = no">
+		
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+		<link rel="stylesheet" href="common.css">
+		
+	</head>
+	<body>
+	
+		<div class="container-fluid" ng-app="application" ng-controller="controller">
+			
+			<h4 class="pb-2 mt-4 mb-3 border-bottom">
+				تكريم المتفوقين
+			</h4>
+			
+			<div id="alert" ng-class="alert.class" ng-bind="alert.message" class="alert font-weight-bold text-center" role="alert">
+			</div>
+			
+			<div class="table-responsive">
+				<table class="table table-striped" id="students">
+					<thead>
+						<tr>
+							<th>
+								#
+							</th>
+							<th>
+								رقم الهاتف
+							</th>
+							<th>
+								اسم الطالب
+							</th>
+							<th>
+								رقم الهاتف الثاني
+							</th>
+							<th>
+								العمر
+							</th>
+							<th>
+								البريد الإلكتروني
+							</th>
+							<th>
+								الصورة الشخصية
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="student in students">
+							<td ng-bind="$index + 1">
+							</td>
+							<td ng-bind="student.mobile">
+							</td>
+							<td ng-bind="student.name">
+							</td>
+							<td ng-bind="student.contact">
+							</td>
+							<td ng-bind="student.age">
+							</td>
+							<td ng-bind="student.email">
+							</td>
+							<td>
+								<img ng-src="{{student.photo}}" class="img-responsive" width="100">
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		
+	</body>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/8.7.0/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/8.7.0/firebase-database.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/8.7.0/firebase-firestore.js"></script>
+	<script src="common.js"></script>
+	<script src="list.js"></script>
+</html>
